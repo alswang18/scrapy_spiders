@@ -1,8 +1,6 @@
 import scrapy
-from selenium import webdriver
 from scrapy.selector import Selector
 from scrapy.http import Request
-from selenium.common.exceptions import NoSuchElementException
 from time import sleep
 import re
 
@@ -32,10 +30,12 @@ class PcnSpiderSpider(scrapy.Spider):
             
             PCNC_expiry_date=rows[i].xpath('td//text()')[4].extract()
             PCNC_expiry_date=re.sub('\s+','',PCNC_expiry_date)
+            website=rows[i].xpath('td/p/a/text()').extract_first()
             yield { 
                 'NGO_Name':NGO_Name, 
                 'category':category, 
                 'BIR_expiry_date':BIR_expiry_date,
-                'PCNC_expiry_date':PCNC_expiry_date
+                'PCNC_expiry_date':PCNC_expiry_date,
+                'website':website
                }
         
